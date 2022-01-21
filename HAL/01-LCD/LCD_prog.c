@@ -68,3 +68,61 @@ void LCD_vidSendSentence(u8 *pSentence, enum_row cop_enumrowNumber, enum_column 
 		 _delay_ms(5);
 	}
 }
+
+/* Send integer number to LCD */
+void LCD_vidSendIntNumber(u32 cop_u32Number, enum_row cop_enumrowNumber, enum_column cop_enumcolumnNumber){
+
+	u32 NumberArray[10] = {0};
+	u8 NumberString[10] ={0};
+	u8 NumberCounter = 0;
+
+	/* Store the number in array */
+	while(cop_u32Number != 0){
+		NumberArray[NumberCounter] = cop_u32Number % 10;
+		cop_u32Number /= 10;
+		NumberCounter ++;
+	}
+	/* Convert Integer number into string */
+	for(u8 i=0;i<NumberCounter;i++){
+		NumberString[i] = NumberArray[NumberCounter-1-i] + '0';
+	}
+	LCD_vidSendSentence(NumberString, cop_enumrowNumber, cop_enumcolumnNumber);
+}
+
+/* Send floating_point number to LCD */
+void LCD_vidSendrealNumber(f32 cop_f32Number, u8 precision, enum_row cop_enumrowNumber, enum_column cop_enumcolumnNumber){
+
+	u32 NumberArray[10] = {0};
+	u8 NumberString[10] ={0};
+	u8 NumberCounter = 0;
+	u32 IntPart = 0, AfterPoint = 0;
+
+	/* Get number before point */
+	IntPart = (u32) cop_f32Number ;
+	while(IntPart != 0){
+		NumberArray[NumberCounter] = IntPart % 10;
+		IntPart /= 10;
+		NumberCounter ++;
+	}
+	for(u8 i=0;i<NumberCounter;i++){
+			NumberString[i] = NumberArray[NumberCounter-1-i] + '0';
+		}
+	/* add point to the string */
+	NumberString[NumberCounter]= '.';
+	NumberCounter ++;
+
+	/* Get number after point */
+	IntPart = (u32) cop_f32Number ;
+	cop_f32Number -= IntPart;
+	for(u8 i=0;i<precision;i++){
+		cop_f32Number *= 10;
+		AfterPoint = cop_f32Number ;
+		NumberString[NumberCounter+i] =  AfterPoint + '0';
+		cop_f32Number -= AfterPoint;
+	}
+
+	LCD_vidSendSentence(NumberString, cop_enumrowNumber, cop_enumcolumnNumber);
+}
+
+
+
