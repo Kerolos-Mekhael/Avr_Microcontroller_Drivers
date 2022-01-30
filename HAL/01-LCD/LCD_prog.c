@@ -77,7 +77,7 @@ void LCD_vidSendIntNumber(u32 cop_u32Number, enum_row cop_enumrowNumber, enum_co
 	u8 NumberCounter = 0;
 
 	/* Store the number in array */
-	while(cop_u32Number != 0){
+	while(cop_u32Number != 0 || NumberCounter == 0){
 		NumberArray[NumberCounter] = cop_u32Number % 10;
 		cop_u32Number /= 10;
 		NumberCounter ++;
@@ -99,7 +99,7 @@ void LCD_vidSendrealNumber(f32 cop_f32Number, u8 precision, enum_row cop_enumrow
 
 	/* Get number before point */
 	IntPart = (u32) cop_f32Number ;
-	while(IntPart != 0){
+	while(IntPart != 0 || NumberCounter == 0){
 		NumberArray[NumberCounter] = IntPart % 10;
 		IntPart /= 10;
 		NumberCounter ++;
