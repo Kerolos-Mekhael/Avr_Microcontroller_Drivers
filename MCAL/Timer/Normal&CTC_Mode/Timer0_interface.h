@@ -14,7 +14,7 @@ typedef enum{
 void Callback_function(void(* ptr)());
 
 /* Delay Timer in msec */
-void Timer0_ms(u32 cop_ms);
+void Timer0_CTC_us(u32 cop_us);
 
 /* Delay Timer in usec */
 void Timer0_us(u32 cop_us);

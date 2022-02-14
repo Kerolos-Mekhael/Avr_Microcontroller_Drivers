@@ -19,8 +19,8 @@ void Callback_function(void(* ptr)()){
 	}
 }
 
-/* Calculations of Timer0, such as number of overflows and Preload value */
-void  Timer0_ms(u32 cop_ms){
+/* Delay Timer in msec using Overflow mode */
+void  Timer0_Overflow_ms(u32 cop_ms){
 
 	f64 OverflowTime=0;
 	f64 OverflowCounts=0, checkInt;
@@ -41,11 +41,11 @@ void  Timer0_ms(u32 cop_ms){
 	}
 }
 
-/* Delay Timer in usec */
-void Timer0_us(u32 cop_us){
-	f64 OverflowTime=0;
-	OverflowTime = (f64)256 * ((f64)PRESCALER / CLOCK);
-	OCR0 = cop_us;
+/* Delay Timer in usec using CTC Mode */
+void Timer0_CTC_us(u32 cop_us){
+	u32 TickTime=0;
+	TickTime = PRESCALER / CLOCK;
+	OCR0 = cop_us / TickTime  ;
 }
 
 /* Timer0 Initialization */
