@@ -7,6 +7,12 @@ typedef enum{
 	CTC
 }Timer_Mode;
 
+/* Enum for Timer Selection */
+typedef enum{
+	Timer0	,
+	Timer1
+}Timer;
+
 #define PRESCALER    256
 #define CLOCK		 8000000
 
@@ -14,12 +20,12 @@ typedef enum{
 void Callback_function(void(* ptr)());
 
 /* Delay Timer in msec */
-void Timer0_CTC_us(u32 cop_us);
+void  Timer_Overflow_ms(Timer cop_Timer, u32 cop_ms);
 
 /* Delay Timer in usec */
-void Timer0_us(u32 cop_us);
+void Timer_CTC_us(Timer cop_Timer, u32 cop_us);
 
 /* Timer0 Initialization */
-void Timer0_vidInit(Timer_Mode cop_TimerMode);
+void Timer_vidInit(Timer cop_Timer, Timer_Mode cop_TimerMode);
 
 #endif
