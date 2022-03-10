@@ -4,16 +4,16 @@
 /* enum for motor direction */
 typedef enum {
 	clockwise ,
-	anti-clockwise 
+	anti_clockwise
 }motor_direction;
 
 /* Turn on Dc Motor */
-void DcMotor_vidON(enum_port cop_enumport, enum_pin cop_enumpin);
+void DcMotor_vidON(void);
 
 /* Turn off Dc Motor */
-void DcMotor_vidOFF(enum_port cop_enumport, enum_pin cop_enumpin);
+void DcMotor_vidOFF(void);
 
 /* Control H_bridge direction of motor */
-void DCMotor_vidH_Bridge(enum_port cop_enumport, motor_direction cop_motordirection);
+void DCMotor_vidH_Bridge(motor_direction cop_motordirection);
 
 #endif

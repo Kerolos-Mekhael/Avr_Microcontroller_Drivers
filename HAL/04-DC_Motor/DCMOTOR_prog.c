@@ -1,10 +1,36 @@
-#include "../../lib/STD_TYPES.h"
-#include "../../lib/BIT_MATH.h"
-#include "../../MCAL/DIO/DIO_interface.h"
+#include "STD_TYPES.h"
+#include "BIT_MATH.h"
+#include "DIO_interface.h"
 #include "DCMOTOR_configuration.h"
 #include "DCMOTOR_interface.h"
 
-/* Turn on Dc Motor */
-void DcMotor_vidON(enum_port cop_enumport, enum_pin cop_enumpin){
+
+void DcMotor_vidON(){
+
+	DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_PIN, PinHigh);
+}
+
+void DcMotor_vidOFF(){
+
+	DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_PIN, PinLow);
+}
+
+void DCMotor_vidH_Bridge(motor_direction cop_motordirection){
 	
+	if(cop_motordirection == clockwise){
+
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_1, PinHigh);
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_3, PinHigh);
+
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_2, PinLow);
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_4, PinLow);
+	}
+	else if(cop_motordirection == anti_clockwise){
+
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_1, PinLow);
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_3, PinLow);
+
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_2, PinHigh);
+		DIO_u8SetPinValue(DCMOTOR_PORT, DCMOTOR_DRIVER_4, PinHigh);
+	}
 }
