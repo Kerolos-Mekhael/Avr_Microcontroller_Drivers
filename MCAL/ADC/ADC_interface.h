@@ -17,6 +17,9 @@ typedef enum{
 void ADC_vidInit(void);
 
 /* Reading of ADC */
-u32 ADC_GetChannelReading(adc_channel cop_adcchannel);
+u16 ADC_GetChannelReading(adc_channel cop_adcchannel);
+
+/* Calculate Voltage Input */
+f32 ADC_GetVoltageInput(adc_channel cop_adcchannel);
 
 #endif

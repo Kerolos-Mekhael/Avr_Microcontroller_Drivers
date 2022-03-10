@@ -1,6 +1,6 @@
-#include "../../lib/BIT_MATH.h"
-#include "../../lib/STD_TYPES.h"
-#include "../DIO/DIO_interface.h"
+#include "BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "DIO_interface.h"
 #include "ADC_registers.h"
 #include "ADC_configuration.h"
 #include "ADC_interface.h"
@@ -26,10 +26,10 @@ void ADC_vidInit(){
 }
 
 /* Reading of ADC */
-u32 ADC_GetChannelReading(adc_channel cop_adcchannel){
+u16 ADC_GetChannelReading(adc_channel cop_adcchannel){
 
-	u32 ADC_u32Value=0;
-	u8 ADC_Low , ADC_High;
+	u16 ADC_u16Value=0;
+
 	/* Select Channel */
 	ADMUX = (ADMUX & 0xE0) | (cop_adcchannel);
 
@@ -43,8 +43,17 @@ u32 ADC_GetChannelReading(adc_channel cop_adcchannel){
 	CLR_BIT(ADCSRA, ADCSRA_ADIF);
 
 	/* Read ADC Value */
-	ADC_u32Value  = ((u32)ADCH << 2) & 0x03ff;
-	ADC_u32Value |= ((u32)ADCL >> 6) & 0x03;
+	ADC_u16Value  = ((u16)ADCL >> 6) & 0x03;
+	ADC_u16Value |= ((u16)ADCH << 2) & 0x03ff;
 
-	return ADC_u32Value;
+	return ADC_u16Value;
+}
+
+f32 ADC_GetVoltageInput(adc_channel cop_adcchannel){
+
+	u16 Result=0;
+	f32 Vout = 0.0;
+	Result = ADC_GetChannelReading(cop_adcchannel);
+	Vout = Result * ((f32)VOLTAGE_REF / RESOLUTION);
+	return Vout ;
 }
