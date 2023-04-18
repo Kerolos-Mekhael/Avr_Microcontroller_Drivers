@@ -1,5 +1,5 @@
-#include "../../lib/BIT_MATH.h"
-#include "../../lib/STD_TYPES.h"
+#include "BIT_MATH.h"
+#include "STD_TYPES.h"
 #include "PWM_interface.h"
 #include "PWM_registers.h"
 
@@ -16,20 +16,22 @@ void Timer1_vidInit(void){
 	CLR_BIT(TCCR1A, TCCR1A_COM1A0);
 	SET_BIT(TCCR1A, TCCR1A_COM1A1);
 
-	/* choose Prescaler (8) */
-	CLR_BIT(TCCR1B, TCCR1B_CS10);
+	/* choose Prescaler (64) */
+	SET_BIT(TCCR1B, TCCR1B_CS10);
 	SET_BIT(TCCR1B, TCCR1B_CS11);
 	CLR_BIT(TCCR1B, TCCR1B_CS12);
 }
 
-/* Set the period counts in input capture register */
-void Timer1_vidSetFrequency(u16 cop_u16Frequency){
+void Timer1_vidSetONPeriod(u16 cop_u16PeriodCounts, u8 cop_DutyCycle){
+	OCR1A = cop_DutyCycle * cop_u16PeriodCounts / 100;
+}
+
+void Timer1_vidSetFrequency(u16 cop_u16Frequency, u8 cop_DutyCycle){
 
 	u16 PeriodCounts = (CLOCK / PRESCALER) / cop_u16Frequency;
 	ICR1 = PeriodCounts;
+	Timer1_vidSetONPeriod(PeriodCounts, cop_DutyCycle);
 }
 
-/* Set the compare match value */
-void Timer1_vidSetONPeriod(u16 cop_u16ONPeriod){
-	OCR1A = cop_u16ONPeriod;
-}
+
+

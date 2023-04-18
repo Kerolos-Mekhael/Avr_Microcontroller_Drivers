@@ -1,7 +1,6 @@
-#include "../../../lib/BIT_MATH.h"
-#include "../../../lib/STD_TYPES.h"
-#include "../../DIO/DIO_interface.h"
-#include "../../Interrupt/GIE_interface.h"
+#include "BIT_MATH.h"
+#include "STD_TYPES.h"
+#include "GIE_interface.h"
 #include "Overflow_registers.h"
 #include "Overflow_interface.h"
 
@@ -61,8 +60,8 @@ void  Timer_Overflow_ms(Timer cop_Timer, u32 cop_ms){
 
 /* Delay Timer in usec using CTC Mode */
 void Timer_CTC_us(Timer cop_Timer, u32 cop_us){
-	u32 TickTime=0;
-	TickTime = PRESCALER / CLOCK;
+	f64 TickTime=0;
+	TickTime =(f64) PRESCALER*1000000 / CLOCK;
 
 	if(cop_Timer == Timer0){
 		OCR0 = cop_us / TickTime  ;
